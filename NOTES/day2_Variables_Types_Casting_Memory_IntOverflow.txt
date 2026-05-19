@@ -1,0 +1,98 @@
+//==================================================== DAY 2 ================================================
+PRIMITIVE: contains all those data types that stores values directly into the memory. not the pointer referncing to these but the actual value.
+++++++++++++++++++++++++++++++++++++++++++ JAVA PRIMITIVE DATA TYPES
+=============================================================================
+Data Type  | Byte Size | Bit Size | Range [-2^(n-1) to 2^(n-1)-1 ]
+=============================================================================
+byte       | 1 byte    | 8 bits   | -2^7  to 2^7-1
+short      | 2 bytes   | 16 bits  | -2^15 to 2^15-1
+int        | 4 bytes   | 32 bits  | -2^31 to 2^31-1
+long       | 8 bytes   | 64 bits  | -2^63 to 2^63-1
+float      | 4 bytes   | 32 bits  | +/- 3.4 x 10^38   (floating point)
+double     | 8 bytes   | 64 bits  | +/- 1.8 x 10^308  (floating point)
+char       | 2 bytes   | 16 bits  | 0 to 2^16-1       (unsigned)
+boolean    | 1 bit     | 1 bit    | true or false
+
+
++++++++++++++++++++++++++++++++++++++++++++ JAVA REFERENCE DATA TYPES [contains memory address rather than values]
++------------------+------------------------------------------------------+
+| Category         | Examples                                             |
++------------------+------------------------------------------------------+
+| Strings          | String                                               |
+| Arrays           | int[], String[], double[]                            |
+| Classes          | BankAccount, Student, any class you create           |
+| Interfaces       | Runnable, Comparable                                 |
+| Enums            | enum Direction { NORTH, SOUTH }                      |
+| Wrapper Classes  | Integer, Double, Boolean, Character                  |
++------------------+------------------------------------------------------+
+
+
++++++++++++++++++++++++++++++++++++++++++++ STACK & HEAP
++--------------------------------------+--------------------------------------+
+| STACK                                | HEAP                                |
++--------------------------------------+--------------------------------------+
+| fast, small, organized               | large, dynamic, less organized      |
+| auto cleaned up                      | cleaned up by garbage collector     |
+| primitives live here                 | objects/arrays live here            |
+| reference variables live here holding| actual object data lives here       |
+|  address       
++--------------------------------------+--------------------------------------+
+Predictable and known things stay in stack. where we know there size, range and lifetime that they will end and wiped out once the method they are used in ends and in heap lives the unnpredictable and unknown things which garbage collector have to look again and again that if anyvariable is pointing to them or not.
+heap objects aren't unknown in size, they're just variable and longer-lived. A String could be 3 characters or 3 million. You don't always know at compile time. And its lifetime isn't tied to one method — it could be passed around, stored, referenced from multiple places. That's why GC has to watch it instead of auto-cleaning.
+
+Code:
+int age = 25;
+String name = "Ali";
+int[] scores = {90, 85, 78};
+int[] a =[99,2,3];
+int[] b = a
+
+Memory Layout:
++-----------------------------+     +-----------------------------+
+| STACK                       |     | HEAP                        |
++-----------------------------+     +-----------------------------+
+| age     → 25                |     |                             |
+| name    → [address: 0x1] ---+---->| "Ali"                       |
+| scores  → [address: 0x2] ---+---->| [90, 85, 78]                |
+|                             |     |                             |
+| a       → [address: 0x3] ---+---->| [99, 2, 3]                  |
+| b       → [address: 0x3] ---+---↗ |                             |
++-----------------------------+     +-----------------------------+
+Primitives → value on stack
+Reference variables → address on stack, data on heap
+Method ends → stack wiped, heap survives until GC
+Java's garbage collector is smart — it only cleans heap objects when zero stack variables point to them. If something still has a reference, it stays alive.
+
+
++++++++++++++++++++++++++++++++++++++++++++ TYPE CASTING
+─────────────────────────────────────────────
+Widening  : small → large  | automatic | safe
+Narrowing : large → small  | manual    | risky 
+─────────────────────────────────────────────
+Order: byte → short → int → long → float → double
+
+narrowing is dangerous. Java doesn't protect you — it does what you told it to do and gives you a wrong answer silently.
+
+
+
++++++++++++++++++++++++++++++++++++++++++++ INTEGER OVERFLOW
+Definition:
+When an arithmetic operation exceeds the min or max boundary of an int's 32-bit capacity, causing the bits to wrap around to the opposite end of the range — silently, with no error thrown.
+Two Directions:
+Exceed MAX  →  wraps to most negative value  →  counts up from there
+Exceed MIN  →  wraps to most positive value  →  counts down from there
+-------------------------------------------------------------------------------
+Example:
+int max = Integer.MAX_VALUE;  // 2,147,483,647
+System.out.println(max + 1);  // -2,147,483,648  (wraps to MIN)
+System.out.println(max + 2);  // -2,147,483,647  (counts up from MIN)
+-------------------------------------------------------------------------------
+Why It Is Dangerous:
+Java gives NO warning, NO error, NO exception.
+A wrong answer that looks like a right answer is worse than a crash.
+=============================================================================
+
+
+
+
+
