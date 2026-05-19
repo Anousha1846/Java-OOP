@@ -13,6 +13,12 @@ public class day2 {
         System.out.println(isLoggedIn);
         System.out.println(grade);
         System.out.println(scores);
+
+        //-----------------PSL-2`-----------------
+        int max = Integer.MAX_VALUE;
+        System.out.println(max);
+        System.out.println(max + 1);
+        System.out.println(max + 2);
     }
 
-    }
+}
