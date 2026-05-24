@@ -1,0 +1,106 @@
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ OPERATORS
+=============================================================================
+ARITHMETIC
++   addition
+-   subtraction
+*   multiplication
+/   division (int/int = int, decimals truncated)
+%   modulus (remainder)
+++  increment | x++ (use then increment) | ++x (increment then use)
+--  decrement | x-- (use then decrement) | --x (decrement then use)
+
+=============================================================================
+RELATIONAL (return boolean)
+==  equal to
+!=  not equal to
+>   greater than
+<   less than
+>=  greater than or equal to
+<=  less than or equal to
+
+=============================================================================
+LOGICAL
+&&  logical AND   | short-circuit | stops if first condition is false
+||  logical OR    | short-circuit | stops if first condition is true
+!   logical NOT   | inverts boolean
+&   bitwise AND   | evaluates both sides always
+|   bitwise OR    | evaluates both sides always
+
+SHORT-CIRCUIT RULE:
+&&  → if left side is false, right side never evaluates
+||  → if left side is true, right side never evaluates
+Why it matters:
+if (obj != null && obj.getValue() > 0)  // safe — stops if obj is null
+if (obj != null & obj.getValue() > 0)   // crashes if obj is null
+
+=============================================================================
+ASSIGNMENT
+=    assign value
++=   add and assign        x += 5  →  x = x + 5
+-=   subtract and assign
+*=   multiply and assign
+/=   divide and assign
+%=   modulus and assign
+
+=============================================================================
+KEY TRAPS
+= vs ==     assignment vs comparison. never confuse these.
+x++ vs ++x  post vs pre increment. order of operation matters.
+& vs &&     always-evaluate vs short-circuit. use && in conditions always.
+int/int     5/2 = 2, not 2.5. cast to double if decimal needed.
+=============================================================================
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ IF/ELSE and SWITCH CASE 
+if-else  → ranges, complex conditions, boolean logic
+switch   → exact value matching against a single variable
+
+SWITCH TRAP — FALLTHROUGH:
+Without break, execution continues into next case automatically.
+Fix: add break at end of each case.
+
+MODERN SWITCH (Java 14+):
+switch(x) {
+    case 1 -> System.out.println("one");  // no fallthrough, no break needed
+}
+Use this. Always.
+=============================================================================
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++LOOPS
+=============================================================================
+for       → definite   | known number of iterations
+while     → indefinite | condition checked BEFORE each iteration
+do-while  → indefinite | condition checked AFTER each iteration
+                       | always runs at least once
+
+KEY DIFFERENCE:
+while     → may never run if condition is false from start
+do-while  → guaranteed to run at least once
+
+REAL-WORLD do-while:
+Restaurant menu — show menu first, ask to continue after.
+User input validation — ask for input first, validate after.
+=============================================================================
+
+BIG-O NOTATION
+=============================================================================
+O stands for: Order of growth
+Answers: as input grows, how do operations grow?
+Big-O measures how the number of operations in your code grows. It measures the RATE OF GROWTH of work required.
+
+
+O(1)    → Constant time  | input size irrelevant | e.g. arr[0]
+O(n)    → Linear time    | single loop           | grows with input
+O(n²)   → Quadratic time | one nested loop       | grows with n squared
+O(n³)   → Cubic time     | two nested loops      | grows with n cubed
+
+RULE:
+Every additional nested loop adds another power of n.
+
+DANGER ZONE:
+n = 1000, O(n²)  → 1,000,000 operations
+n = 1000, O(n³)  → 1,000,000,000 operations
+Always ask: what is the Big-O of this before writing nested loops.
+ a nested loop becomes dangerous because the number of operations grows at O(n²) — when input doubles, operations quadruple. At large input sizes this becomes computationally expensive fast.
+=============================================================================
