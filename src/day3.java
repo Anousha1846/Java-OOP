@@ -22,6 +22,16 @@ for(int i = 1; i <= 5; i++){
     }
     System.out.println();
 }
-}
+
+//PSL 3 — Largest of three numbers without Math.max
+int a = 45 , b=82 , c=67;
+if(a>b && a>c){
+    System.out.println(a+ " is largest");
+} else if(b>c){
+    System.out.println(b+ " is largest");
+}else{
+    System.out.println(c+ "is largest");
 }
 
+}
+}
