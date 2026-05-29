@@ -1,0 +1,31 @@
+PASS BY VALUE — JAVA
+=============================================================================
+Java ALWAYS passes by value. No exceptions.
+
+Primitive  → copy of value passed
+           → original never changes
+
+Reference  → copy of ADDRESS passed
+           → if you modify object CONTENTS → original sees the change
+           → if you reassign(using new) the reference → original is untouched
+
+KEY DISTINCTION from C++ pass by reference:
+In Java you can NEVER repoint the original variable from inside a method.
+In C++ you can. That's the difference.
+
+ANALOGY:
+Java photocopies the paper and gives you the copy.
+You can go to the address on the copy and modify the house.
+But if you write a new address on your copy — the original paper is unchanged.
+=============================================================================
+
+SCOPE
+=============================================================================
+Local     → inside a method       | dies when method ends
+Instance  → inside class, no static | each object has its own copy
+Class     → static keyword        | shared across all objects, one copy
+
+SHADOWING:
+Local variable with same name hides instance variable inside that method.
+Use this.variableName to access instance variable explicitly.
+=============================================================================

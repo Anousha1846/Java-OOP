@@ -35,9 +35,9 @@ boolean    | 1 bit     | 1 bit    | true or false
 | auto cleaned up                      | cleaned up by garbage collector     |
 | primitives live here                 | objects/arrays live here            |
 | reference variables live here holding| actual object data lives here       |
-|  address       
+|  address                             |
 +--------------------------------------+--------------------------------------+
-Predictable and known things stay in stack. where we know there size, range and lifetime that they will end and wiped out once the method they are used in ends and in heap lives the unnpredictable and unknown things which garbage collector have to look again and again that if anyvariable is pointing to them or not.
+Predictable and known things stay in stack. where we know there size, range and lifetime that they will end and wiped out once the method they are used in ends and in heap lives the unpredictable and unknown things which garbage collector have to look again and again that if any variable is pointing to them or not.
 heap objects aren't unknown in size, they're just variable and longer-lived. A String could be 3 characters or 3 million. You don't always know at compile time. And its lifetime isn't tied to one method — it could be passed around, stored, referenced from multiple places. That's why GC has to watch it instead of auto-cleaning.
 
 Code:
