@@ -57,11 +57,9 @@ public class day5 {
     public static void main(String[] args) {
 
         // int[] array = {3, 7, 1, 6, 9};
-
         // // SEARCH
         // System.out.println("Search 6 → index: " + search(array, 6));  // 3
         // System.out.println("Search 2 → index: " + search(array, 2));  // -1 not found
-
         // // INSERT — insert 99 at index 2
         // insert(array, 2, 99);
         // System.out.print("After insert 99 at index 2: ");
@@ -69,7 +67,6 @@ public class day5 {
         //     System.out.print(x + " ");
         // }
         // System.out.println();
-
         // // DELETE — delete element at index 3
         // delete(array, 3);
         // System.out.print("After delete at index 3: ");
@@ -77,7 +74,6 @@ public class day5 {
         //     System.out.print(x + " ");
         // }
         // System.out.println();
-
         // int[] sorted = {1, 3, 5, 7, 9, 11, 13};
         // System.out.println("BinSearch 7 → index: " + BinSearch(sorted, 7));
         // System.out.println("BinSearch 6 → index: " + BinSearch(sorted, 6));
@@ -89,17 +85,34 @@ public class day5 {
         //         }
         //     }
         // }
-        int[] arr =  {1, 2, 3, 4, 5};
-        int left =0;
-        int right = arr.length -1;
-        while(left<right){
-            int temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
-            left++;
-            right--;
+        //PSL-2
+        // int[] arr =  {1, 2, 3, 4, 5};
+        // int left =0;
+        // int right = arr.length -1;
+        // while(left<right){
+        //     int temp = arr[left];
+        //     arr[left] = arr[right];
+        //     arr[right] = temp;
+        //     left++;
+        //     right--;
+        // }
+        // for (int i = 0; i < arr.length; i++) {
+        //     System.out.println(arr[i]);
+        // }
+        //PSL-3
+        int[] arr = {1, 2, 3, 4, 5};
+        int k = 2;
+        int[] temp = new int[arr.length];
+        for (int i = 0; i < arr.length - k ; i++) {
+            temp[i] = arr[i+k];
+        }
+        for (int i = 0; i < k; i++) {
+            temp[arr.length - k +i] = arr[i];
         }
         for (int i = 0; i < arr.length; i++) {
+            arr[i] = temp[i];
+        }
+         for (int i = 0; i < arr.length; i++) {
             System.out.println(arr[i]);
         }
     }
