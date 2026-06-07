@@ -1,0 +1,124 @@
+//==================================================== DAY 7 ================================================
+
+ACCESS MODIFIERS
+=============================================================================
+public    → everywhere — same class, package, subclass, different package
+protected → same class, same package, subclasses (even different package)
+default   → same class, same package only (no keyword needed)
+private   → same class only
+
+Strictest to most open: private → default → protected → public
+=============================================================================
+
+
+WHY PUBLIC FIELDS ARE DANGEROUS
+=============================================================================
+Public fields allow direct mutation from anywhere — no validation, no control.
+
+Example of the bug:
+BankAccount acc = new BankAccount("Ali", 1000.0);
+acc.balance = -99999999;  // no error, no warning, account corrupted
+
+The unrestricted mutation problem:
+Any code with a reference to the object can corrupt its state silently.
+No method call, no validation, no protection.
+
+Rule: never expose fields as public. Always private.
+=============================================================================
+
+
+GETTERS — READ ONLY ACCESS
+=============================================================================
+Make fields private. Provide controlled read access through getters.
+
+public double getBalance() {
+    return balance;  // read only — caller cannot modify
+}
+
+acc.balance = -999;      // COMPILE ERROR — private field
+acc.getBalance();        // OK — read only
+=============================================================================
+
+
+SETTERS — VALIDATION REQUIRED
+=============================================================================
+Empty setter — worse than a public field:
+public void setBalance(double balance) {
+    this.balance = balance;  // no validation — misleads developers
+}
+
+Correct setter — validation inside:
+public void setBalance(double balance) {
+    if (balance < 0) {
+        throw new IllegalArgumentException("Balance cannot be negative: " + balance);
+    }
+    this.balance = balance;
+}
+
+Rule: a setter must validate or it shouldn't exist.
+Empty setters are actively misleading — they signal protection where none exists.
+=============================================================================
+
+
+IMMUTABLE OBJECTS
+=============================================================================
+An object whose state cannot change after construction.
+
+Four requirements:
+1. All fields private and final
+2. No setters
+3. Class declared final — cannot be subclassed and fields exposed
+4. Constructor initializes all fields
+
+Example:
+public final class Transaction {
+    private final double amount;
+    private final String date;
+
+    public Transaction(double amount, String date) {
+        this.amount = amount;
+        this.date = date;
+    }
+
+    public double getAmount() { return amount; }
+    public String getDate() { return date; }
+}
+
+Why immutability matters in banking:
+Transaction records are tamper-proof — once written, amount and date
+cannot change. That's audit trail integrity.
+=============================================================================
+
+
+ENCAPSULATED BANKACCOUNT
+=============================================================================
+public class BankAccount {
+    private String owner;   // private — no direct access
+    private double balance; // private — no direct access
+
+    public BankAccount(String owner, double balance) {
+        this.owner = owner;
+        this.balance = balance;
+    }
+    public BankAccount() {
+        this("Unknown", 0.0);
+    }
+
+    public String getOwner()  { return owner; }
+    public double getBalance() { return balance; }
+
+    public void deposit(double amount) {
+        if (amount > 0) balance += amount;
+        else System.out.println("Invalid deposit amount");
+    }
+
+    public void withdraw(double amount) {
+        if (amount > 0 && amount <= balance) balance -= amount;
+        else System.out.println("Invalid withdrawal amount");
+    }
+}
+
+PUBLIC FIELD BUG:
+account1.balance = -22222789;  // bypasses all validation silently
+Output: Alice balance: -2.2222789E7  — no error, corrupted state
+=============================================================================
