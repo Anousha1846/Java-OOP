@@ -52,5 +52,7 @@ public class day7 {
         account1.withdraw(99999);   // overdraft
         account1.balance = -22222789;  // direct access to balance (not recommended)
         System.out.println(account1.getOwner() + " balance: " + account1.getBalance());
+        System.out.println(account2.getOwner() + " balance: " + account2.getBalance());
+
     }
 }
