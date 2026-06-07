@@ -56,39 +56,51 @@ public class day5 {
 
     public static void main(String[] args) {
 
-        int[] array = {3, 7, 1, 6, 9};
+        // int[] array = {3, 7, 1, 6, 9};
 
-        // SEARCH
-        System.out.println("Search 6 → index: " + search(array, 6));  // 3
-        System.out.println("Search 2 → index: " + search(array, 2));  // -1 not found
+        // // SEARCH
+        // System.out.println("Search 6 → index: " + search(array, 6));  // 3
+        // System.out.println("Search 2 → index: " + search(array, 2));  // -1 not found
 
-        // INSERT — insert 99 at index 2
-        insert(array, 2, 99);
-        System.out.print("After insert 99 at index 2: ");
-        for (int x : array) {
-            System.out.print(x + " ");
+        // // INSERT — insert 99 at index 2
+        // insert(array, 2, 99);
+        // System.out.print("After insert 99 at index 2: ");
+        // for (int x : array) {
+        //     System.out.print(x + " ");
+        // }
+        // System.out.println();
+
+        // // DELETE — delete element at index 3
+        // delete(array, 3);
+        // System.out.print("After delete at index 3: ");
+        // for (int x : array) {
+        //     System.out.print(x + " ");
+        // }
+        // System.out.println();
+
+        // int[] sorted = {1, 3, 5, 7, 9, 11, 13};
+        // System.out.println("BinSearch 7 → index: " + BinSearch(sorted, 7));
+        // System.out.println("BinSearch 6 → index: " + BinSearch(sorted, 6));
+        // int[] unsorted = {1, 3, 4, 2, 2};
+        // for (int i = 0; i < unsorted.length; i++) {
+        //     for (int j = i + 1; j < unsorted.length; j++) {
+        //         if (unsorted[i] == unsorted[j]) {
+        //             System.out.println("Duplicate found: " + unsorted[i]);
+        //         }
+        //     }
+        // }
+        int[] arr =  {1, 2, 3, 4, 5};
+        int left =0;
+        int right = arr.length -1;
+        while(left<right){
+            int temp = arr[left];
+            arr[left] = arr[right];
+            arr[right] = temp;
+            left++;
+            right--;
         }
-        System.out.println();
-
-        // DELETE — delete element at index 3
-        delete(array, 3);
-        System.out.print("After delete at index 3: ");
-        for (int x : array) {
-            System.out.print(x + " ");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.println(arr[i]);
         }
-        System.out.println();
-
-        int[] sorted = {1, 3, 5, 7, 9, 11, 13};
-        System.out.println("BinSearch 7 → index: " + BinSearch(sorted, 7));
-        System.out.println("BinSearch 6 → index: " + BinSearch(sorted, 6));
-        int[] unsorted = {1, 3, 4, 2, 2};
-        for (int i = 0; i < unsorted.length; i++) {
-            for (int j = i + 1; j < unsorted.length; j++) {
-                if (unsorted[i] == unsorted[j]) {
-                    System.out.println("Duplicate found: " + unsorted[i]);
-                }
-            }
-        }
-
     }
 }
