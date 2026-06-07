@@ -1,0 +1,127 @@
+//==================================================== DAY 5 ================================================
+
+ARRAYS
+=============================================================================
+Reference type — stores address on stack, data on heap.
+Fixed size — cannot change after creation.
+Index starts at 0. Last index = length - 1.
+
+Declaration:
+int[] scores = {90, 85, 78};           // direct initialization
+int[] scores = new int[5];             // size only, fills with defaults
+
+Default values:
+int[]     → 0
+double[]  → 0.0
+boolean[] → false
+String[]  → null
+So new int[5] gives you {0, 0, 0, 0, 0} — not empty, not garbage, zeros.
+
+Traversal:
+for (int i = 0; i < arr.length; i++)   // standard — use when index needed
+for (int score : scores)                // for-each — use when index not needed
+
+Exception: ArrayIndexOutOfBoundsException — accessing invalid index.
+=============================================================================
+
+
+MULTI-DIMENSIONAL ARRAYS
+=============================================================================
+Array of arrays — rows and columns.
+
+Declaration:
+int[][] matrix = new int[3][4];              // 3 rows, 4 columns
+int[][] matrix = {{1,2,3},{4,5,6},{7,8,9}}; // direct initialization
+
+Access: matrix[row][col]
+
+Traversal:
+for (int i = 0; i < matrix.length; i++)          // matrix.length = rows
+    for (int j = 0; j < matrix[i].length; j++)   // matrix[i].length = cols per row
+
+WHY matrix[i].length and not matrix.length for columns:
+Each row can have a different number of columns.
+matrix[i].length adapts to each row — matrix.length does not.
+Hardcoding columns breaks on uneven arrays — always use matrix[i].length.
+=============================================================================
+
+
+ARRAY OPERATIONS — BIG-O
+=============================================================================
+Access   arr[i]        → O(1)    direct index, one operation
+Search   unsorted      → O(n)    must check every element
+Search   sorted        → O(log n) binary search — halves each step
+Insert   at index      → O(n)    shift elements right using i-1
+Delete   at index      → O(n)    shift elements left using i+1
+
+INSERT — shift right (reverse loop, i--):
+arr[i] = arr[i-1]  →  copy left neighbor into current position
+
+DELETE — shift left (forward loop, i++):
+arr[i] = arr[i+1]  →  copy right neighbor into current position
+=============================================================================
+
+
+BIG-O — FORMAL
+=============================================================================
+O stands for: Order of growth
+Answers: as input grows, how do operations grow?
+
+O(1)      → Constant     | input irrelevant          | arr[i] access
+O(log n)  → Logarithmic  | problem halves each step  | binary search
+O(n)      → Linear       | one op per element        | linear search
+O(n²)     → Quadratic    | nested loops              | brute force duplicate
+
+RULE: every additional nested loop adds another power of n.
+
+DANGER ZONE:
+n = 1,000     O(n²)  → 1,000,000 operations
+n = 1,000,000 O(n²)  → 1,000,000,000,000 operations
+
+O(log n) RULE:
+Requires sorted array.
+Each step discards half the remaining elements.
+n = 1,000,000 → only ~20 steps.
+
+Binary search requires sorted input because it discards halves based
+on order — unsorted arrays make that assumption invalid.
+=============================================================================
+
+
+ARRAY ALGORITHMS
+=============================================================================
+BINARY SEARCH — O(log n) — sorted arrays only:
+int left = 0, right = arr.length - 1;
+while (left <= right) {
+    int mid = (left + right) / 2;
+    if (arr[mid] < target) left = mid + 1;       // target in right half
+    else if (arr[mid] > target) right = mid - 1; // target in left half
+    else return mid;                              // found
+}
+return -1; // not found
+
+REVERSE IN-PLACE — O(n):
+int left = 0, right = arr.length - 1;
+while (left < right) {
+    int temp = arr[left];
+    arr[left] = arr[right];
+    arr[right] = temp;
+    left++; right--;
+}
+
+ROTATE LEFT BY k — O(n):
+int[] temp = new int[arr.length];
+for (int i = 0; i < arr.length - k; i++) temp[i] = arr[i + k];
+for (int i = 0; i < k; i++) temp[arr.length - k + i] = arr[i];
+for (int i = 0; i < arr.length; i++) arr[i] = temp[i];
+
+FIND DUPLICATE BRUTE FORCE — O(n²):
+for (int i = 0; i < arr.length; i++)
+    for (int j = i + 1; j < arr.length; j++)
+        if (arr[i] == arr[j]) // duplicate found
+
+FIND DUPLICATE FAST — O(n) using HashSet (Day 15):
+HashSet<Integer> seen = new HashSet<>();
+for (int num : arr)
+    if (!seen.add(num)) // duplicate found
+=============================================================================
