@@ -1,0 +1,53 @@
+WHY TESTS EXIST
+=============================================================================
+Manual testing: you only test what you think to test. Doesn't scale.
+Tests: written once, run forever, catch bugs automatically.
+
+Real scenario: fix withdraw → accidentally breaks deposit.
+Without tests → user reports it.
+With tests → caught in 2 seconds.
+=============================================================================
+JUNIT 5 — ASSERTIONS
+=============================================================================
+@Test          → marks method as a test, JUnit runs it automatically
+assertEquals   → checks if expected == actual
+               → assertEquals(expected, actual)
+assertThrows   → checks if a specific exception is thrown
+               → assertThrows(ExceptionClass.class, () -> { code })
+assertNull     → checks if a value is null
+
+SUCCESS → no output with -q
+FAILURE → shows expected vs actual with exact line number
+
+Run commands:
+mvn test -q    → silent, shows failures only
+mvn test       → full output with summary
+=============================================================================
+
+RED-GREEN CYCLE
+=============================================================================
+Red   → write a failing test first — method doesn't exist yet
+Green → write minimum code to make the test pass
+
+Why: forces you to think about WHAT code should do before HOW.
+Tests define the contract. Code fulfills it.
+=============================================================================
+
+BOUNDARY TESTING
+=============================================================================
+Test the edges, not just the happy path. Most bugs live at boundaries.
+
+Three boundary types:
+Below boundary → just under the limit  
+At boundary    → exactly at the limit  
+Above boundary → just over the limit   
+
+withdraw(1000.0) on account with balance 1000.0:
+Below  → withdraw(999.99)  → success
+At     → withdraw(1000.0)  → success
+Above  → withdraw(1000.01) → fail — overdraft
+
+deposit():
+At/below zero → fail
+Above zero    → success
+=============================================================================
